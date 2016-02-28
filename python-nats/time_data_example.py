@@ -20,14 +20,23 @@ def main():
 
 	# subscribe to a particular id
         def subscribe_blk(msg, reply):
+
+	    # get current time in UTC
 	    dt = datetime.utcnow().strftime(".%Y.%m.%d.%H.%M.%S.%f.")
 	    print("[dt_on_r]: " + dt)
+
+ 	    # split current and previous timestaps on dots
 	    r_timestamp = dt.split('.')
             s_timestamp = msg.split('.')
+
             print "{}".format(msg)
 	    print(r_timestamp)
 	    print(s_timestamp)
+
+	    # match up dictionary with our data
 	    time_data = ["years", "months", "days", "hours", "minutes", "seconds", "ms"]
+
+	    # calculate time difference, print
 	    for i in range(1, 8):
 	    	print(str(int(r_timestamp[i]) - int(s_timestamp[i])) + " " + time_data[i-1])
 
