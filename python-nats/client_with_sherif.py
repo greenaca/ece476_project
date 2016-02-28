@@ -65,7 +65,7 @@ def main():
                 received_message_list.append(final_message)
     
                 # determine if the last message for that has been sent
-                if (message_number % 5000) == 0: 
+                if (message_number % max_messages) == 0: 
                     #completed_user_list.append(split_message[0])
                     #print "[SUB]: user " + str(user_id) + " finished publishing"
     
@@ -84,7 +84,7 @@ def main():
                     if publish_is_complete:
                         # stop the nats process to exitsthe code cleanly
                         print "\nStopping NATS process..."
-                        time.sleep(1)    # prevent "[error] Connection closed since ." message
+                        time.sleep(5)    # prevent "[error] Connection closed since ." message
                         nats.stop()
     
             # subscribe to every user in the subscribe list
@@ -93,17 +93,18 @@ def main():
     
         # publish messages and wait between each publish
         for i in range(max_messages):
-            nats.publish(user_id, user_id + " " + get_time() + " " + str(i + 1))
-            print "[PUB]: publishing message " + str(i + 1)
             rand_num = random.expovariate(1/9.8) + .2  #Random exponential variable with a min of 200 ms
             time.sleep(rand_num)
+
+            print "[PUB]: publishing message " + str(i + 1)
+            nats.publish(user_id, user_id + " " + get_time() + " " + str(i + 1))
 		
 
         publish_is_complete = True
         if completed_user_list == subscribe_list:
             # stop the nats process to exit the code cleanly
             print "\nStopping NATS process..."
-            time.sleep(1)    # prevent "[error] Connection closed since ." message
+            time.sleep(5)    # prevent "[error] Connection closed since ." message
             nats.stop()
 
     except KeyboardInterrupt, ex:
