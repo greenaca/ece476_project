@@ -39,6 +39,7 @@ def main():
         completed_user_list = []                 # List of subscribed users who have finished publishing
         publish_is_complete = False              # Boolean to determine if the publishing is complete
 	filename = "nats_run_" + user_id + "_" + get_time() + ".txt"  #Filename of message data for the user_id
+        message_count = 0
 
         # start nats process
         nats = NatsClient(uris=NATS_URI)
@@ -63,42 +64,43 @@ def main():
                 # final_message = "publish_id sent_time my_id received_time"
                 final_message = split_message[0] + " " + split_message[1] + " " + user_id + " " + get_time()
                 received_message_list.append(final_message)
-    
-                # determine if the last message for that has been sent
-                if (message_number % max_messages) == 0: 
-                    #completed_user_list.append(split_message[0])
-                    #print "[SUB]: user " + str(user_id) + " finished publishing"
-    
-                    # check if all of the subcribed users have completed publishing
-                    #if completed_user_list == subscribe_list: 
-                        #print "\n[SUB]: all messages received:"
-                    
+
+                # write the received message to the file every 5000 messages     
+                if (len(received_message_list) % 5000) == 0: 
                     fd = open(filename, "a")
-    
                     for i in received_message_list:
-                        print >> fd, "\t" + i
-                        
+                        print >> fd, i
                     fd.close
                     del received_message_list[:]
-                        
-                    if publish_is_complete:
-                        # stop the nats process to exitsthe code cleanly
-                        print "\nStopping NATS process..."
-                        time.sleep(5)    # prevent "[error] Connection closed since ." message
-                        nats.stop()
+                    
+                # determine if the last message for that user has been sent
+                if message_number == max_messages:    
+                    completed_user_list.append(split_message[0])
+
+                    # check if all of the subcribed users have completed publishing
+                    if completed_user_list == subscribe_list:
+                        # write rest of the messages to the file
+                        fd = open(filename, "a")
+                        for i in received_message_list:
+                            print >> fd, i
+                        fd.close
+                        del received_message_list[:]
+
+                        if publish_is_complete:
+                            # stop the nats process to exitsthe code cleanly
+                            print "\nStopping NATS process..."
+                            time.sleep(5)    # prevent "[error] Connection closed since ." message
+                            nats.stop()
     
             # subscribe to every user in the subscribe list
             for ID in subscribe_list:
                 sid = nats.subscribe(ID, subscribe_blk)
     
+        time.sleep(5)
         # publish messages and wait between each publish
         for i in range(max_messages):
-            rand_num = random.expovariate(1/9.8) + .2  #Random exponential variable with a min of 200 ms
-            time.sleep(rand_num)
-
             print "[PUB]: publishing message " + str(i + 1)
             nats.publish(user_id, user_id + " " + get_time() + " " + str(i + 1))
-		
 
         publish_is_complete = True
         if completed_user_list == subscribe_list:
