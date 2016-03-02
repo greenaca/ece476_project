@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: nats-client
+Version: 0.2.2
+Summary: NATS client for Python 2
+Home-page: https://github.com/nats-io/python-nats
+Author: Waldemar Quevedo
+Author-email: wally@apcera.com
+License: MIT License
+Description: Python 2 client for NATS, a lightweight, high-performance cloud native messaging system
+Platform: UNKNOWN

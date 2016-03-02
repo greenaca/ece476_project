@@ -1,0 +1,14 @@
+setup.py
+nats/__init__.py
+nats/io/__init__.py
+nats/io/client.py
+nats/io/errors.py
+nats/io/utils.py
+nats/protocol/__init__.py
+nats/protocol/parser.py
+nats_client.egg-info/PKG-INFO
+nats_client.egg-info/SOURCES.txt
+nats_client.egg-info/dependency_links.txt
+nats_client.egg-info/requires.txt
+nats_client.egg-info/top_level.txt
+nats_client.egg-info/zip-safe
