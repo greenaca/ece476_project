@@ -31,7 +31,7 @@ def main():
             user_dictionary[relation[0]] = []
         user_dictionary[relation[0]].append(relation[1:])
 
-    #user_jobs_list = []
+    user_jobs_list = []
 
     # execute the client script for each user
     for user, subs in user_dictionary.iteritems():
