@@ -1,6 +1,0 @@
-vendor
-*log
-*pyc
-build
-dist
-*.egg-info
