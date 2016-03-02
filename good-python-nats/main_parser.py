@@ -29,13 +29,13 @@ def main():
         relation = line.strip().split(",")
         if relation[0] not in user_dictionary:
             user_dictionary[relation[0]] = []
-        user_dictionary[relation[0]].append(relation[1])
+        user_dictionary[relation[0]].append(relation[1:])
 
-    user_jobs_list = []
+    #user_jobs_list = []
 
     # execute the client script for each user
-    for user in user_dictionary:
-        arg_str = user + "," + ",".join(user_dictionary[user])
+    for user, subs in user_dictionary.iteritems():
+        arg_str = user + "," + ",".join(subs[0])
         user_job = subprocess.Popen(["./client.py", arg_str, "-m", max_messages])
         user_jobs_list.append(user_job)
 
