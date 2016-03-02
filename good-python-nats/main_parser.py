@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import subprocess
-import sys
+import argparse, sys
 
 def show_usage():
   print("main_parser INPUT_FILE [-m MAX_MESSAGES]")
@@ -14,7 +14,7 @@ def show_usage():
 def main():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("input_file", default="1000", nargs="?")
+    parser.add_argument("input_file", nargs="?")
     parser.add_argument("-m", "--maxmsg", default="1000")
 
     args = parser.parse_args()
@@ -31,10 +31,17 @@ def main():
             user_dictionary[relation[0]] = []
         user_dictionary[relation[0]].append(relation[1])
 
+    user_jobs_list = []
+
     # execute the client script for each user
     for user in user_dictionary:
         arg_str = user + "," + ",".join(user_dictionary[user])
-        subprocess.Popen(["./client.py", arg_str, "-m", max_messages])
+        user_job = subprocess.Popen(["./client.py", arg_str, "-m", max_messages])
+        user_jobs_list.append(user_job)
+
+
+    for user_job in user_jobs_list:
+        user_job.wait()
 
 if __name__ == "__main__":
     main()

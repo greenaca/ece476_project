@@ -31,7 +31,8 @@ def publisher():
 
     args = parser.parse_args()
 
-    time.sleep(1)
+    time.sleep(5)
+    print 'User', args.subject, "starting to publish" 
 
     nc = NATS()
     try:
