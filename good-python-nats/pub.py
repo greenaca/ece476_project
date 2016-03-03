@@ -31,12 +31,12 @@ def publisher():
 
     args = parser.parse_args()
 
-    time.sleep(5)
+    time.sleep(10)
     print 'User', args.subject, "starting to publish" 
 
     nc = NATS()
     try:
-        servers = ["nats://127.0.0.1:4222"]
+        servers = ["nats://146.148.76.9:4222"]
         opts = { "servers": servers }
         yield nc.connect(**opts)
 

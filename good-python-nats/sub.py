@@ -41,7 +41,7 @@ def subscribe():
 
     # Create client and connect to server
     nc = NATS()
-    servers = ["nats://127.0.0.1:4222"]
+    servers = ["nats://146.148.76.9:4222"]
     opts = { "servers": servers }
     yield nc.connect(**opts)
 
@@ -54,7 +54,7 @@ def subscribe():
         message_number = int(split_message[2])
         final_message = split_message[0] + " " +\
                         split_message[1] + " " +\
-                        args.subject + " " +\
+                        args.original + " " +\
                         sub_time
         received_message_list.append(final_message)
 
