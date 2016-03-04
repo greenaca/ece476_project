@@ -29,6 +29,7 @@ def subscribe():
     parser.add_argument("subject", default="hello", nargs="?")
     parser.add_argument("-o", "--original", default="hello", nargs="?")
     parser.add_argument("-m", "--maxmsg", default=10000, type=int)
+    parser.add_argument("-d", "--dirname")
 
     # Parse!
     args = parser.parse_args()
@@ -41,7 +42,8 @@ def subscribe():
 
     # Create client and connect to server
     nc = NATS()
-    servers = ["nats://146.148.76.9:4222"]
+    #servers = ["nats://146.148.76.9:4222"]
+    servers = ["nats://127.0.0.1:4222"]
     opts = { "servers": servers }
     yield nc.connect(**opts)
 
@@ -59,7 +61,7 @@ def subscribe():
         received_message_list.append(final_message)
 
         if message_number == args.maxmsg:
-            fd = open(filename, "a")
+            fd = open(args.dirname + "/" + filename, "a")
             for i in received_message_list:
                 print >> fd, i
             fd.close

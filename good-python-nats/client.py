@@ -29,6 +29,7 @@ def main():
     # e.g. nats-pub hello -d "world" -s nats://127.0.0.1:4222 -s nats://127.0.0.1:4223
     parser.add_argument("user_string", default="0,0", nargs="?")
     parser.add_argument("-m", "--maxmsg", default="1000")
+    parser.add_argument("-d", "--dirname")
 
     args = parser.parse_args()
 
@@ -37,7 +38,7 @@ def main():
     sub_jobs_list = []
 
     for sub_id in subscribe_list:
-        sub_job = subprocess.Popen(["./sub.py", sub_id, "-o", user_id, "-m", args.maxmsg])
+        sub_job = subprocess.Popen(["./sub.py", sub_id, "-o", user_id, "-m", args.maxmsg, "-d", args.dirname])
         sub_jobs_list.append(sub_job)
     pub_job = subprocess.Popen(["./pub.py", user_id, "-m", args.maxmsg])
 

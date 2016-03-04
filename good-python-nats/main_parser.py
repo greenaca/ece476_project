@@ -6,6 +6,7 @@ from functools import wraps
 import errno
 import os
 import signal
+import time
 
 timeout_secs = 54000   # 1.5hrs
 
@@ -38,7 +39,6 @@ def show_usage():
   print("")
   print("main_parser users.txt -m 10000")
 
-
 @timeout(10 + timeout_secs)
 def main():
     parser = argparse.ArgumentParser()
@@ -50,6 +50,12 @@ def main():
 
     max_messages = args.maxmsg
     input_file = args.input_file
+    log_dir = "logs"
+    run_time = time.strftime("%d-%m-%Y-%H-%M-%S")
+    run_dir = log_dir + "/nats-run_" + run_time    # Name of directory for this run
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
+    os.makedirs(run_dir)
 
     user_dictionary = {}
 
@@ -65,7 +71,7 @@ def main():
     # execute the client script for each user
     for user, subs in user_dictionary.iteritems():
         arg_str = user + "," + ",".join(subs[0])
-        user_job = subprocess.Popen(["./client.py", arg_str, "-m", max_messages])
+        user_job = subprocess.Popen(["./client.py", arg_str, "-m", max_messages, "-d", run_dir])
         user_jobs_list.append(user_job)
 
 
