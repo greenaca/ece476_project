@@ -31,7 +31,7 @@ def publisher():
 
     args = parser.parse_args()
 
-    time.sleep(10)
+    time.sleep(30) # Wait for all subscribe calls to complete before publishing
     print 'User', args.subject, "starting to publish" 
 
     nc = NATS()

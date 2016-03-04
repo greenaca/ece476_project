@@ -8,12 +8,12 @@ import os
 import signal
 import time
 
-timeout_secs = 54000   # 1.5hrs
+timeout_secs = 6300   # 1.75hrs
 
 class TimeoutError(Exception):
     pass
 
-def timeout(seconds=10, error_message=os.strerror(errno.ETIME)):
+def timeout(seconds=(30 + timeout_secs), error_message=os.strerror(errno.ETIME)):
     def decorator(func):
         def _handle_timeout(signum, frame):
             subprocess.call(["pkill", "-9", "python"])
@@ -39,7 +39,7 @@ def show_usage():
   print("")
   print("main_parser users.txt -m 10000")
 
-@timeout(10 + timeout_secs)
+@timeout(30 + timeout_secs)
 def main():
     parser = argparse.ArgumentParser()
 
