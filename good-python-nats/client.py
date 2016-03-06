@@ -38,9 +38,9 @@ def main():
     sub_jobs_list = []
 
     for sub_id in subscribe_list:
-        sub_job = subprocess.Popen(["./sub.py", sub_id, "-o", user_id, "-m", args.maxmsg, "-d", args.dirname])
+        sub_job = subprocess.Popen(["/home/zhangso/ece476_project/good-python-nats/sub.py", sub_id, "-o", user_id, "-m", args.maxmsg, "-d", args.dirname])
         sub_jobs_list.append(sub_job)
-    pub_job = subprocess.Popen(["./pub.py", user_id, "-m", args.maxmsg])
+    pub_job = subprocess.Popen(["/home/zhangso/ece476_project/good-python-nats/pub.py", user_id, "-m", args.maxmsg])
 
     for sub_job in sub_jobs_list:
         sub_job.wait()

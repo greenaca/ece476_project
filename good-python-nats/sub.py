@@ -42,8 +42,8 @@ def subscribe():
 
     # Create client and connect to server
     nc = NATS()
-    #servers = ["nats://146.148.76.9:4222"]
-    servers = ["nats://127.0.0.1:4222"]
+    servers = ["nats://146.148.76.9:4222"]
+    #servers = ["nats://127.0.0.1:4222"]
     opts = { "servers": servers }
     yield nc.connect(**opts)
 

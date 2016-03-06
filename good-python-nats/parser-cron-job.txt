@@ -1,1 +1,1 @@
-00 1,3,5,7,9,11,13,15,17,19,21,23 * * * /home/USER/ece476_project/good-python-nats/main_parser.py COUNTRY.txt -m 200000
+00 1,3,5,7,9,11,13,15,17,19,21,23 * * * /home/zhangso-sc/ece476_project/good-python-nats/main_parser.py /home/zhangso-sc/ece476_project/good-python-nats/us.txt -m 200000

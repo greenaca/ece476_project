@@ -50,7 +50,7 @@ def main():
 
     max_messages = args.maxmsg
     input_file = args.input_file
-    log_dir = "logs"
+    log_dir = "/home/zhangso/ece476_project/good-python-nats/logs"
     run_time = time.strftime("%d-%m-%Y-%H-%M-%S")
     run_dir = log_dir + "/nats-run_" + run_time    # Name of directory for this run
     if not os.path.exists(log_dir):
@@ -71,7 +71,7 @@ def main():
     # execute the client script for each user
     for user, subs in user_dictionary.iteritems():
         arg_str = user + "," + ",".join(subs[0])
-        user_job = subprocess.Popen(["./client.py", arg_str, "-m", max_messages, "-d", run_dir])
+        user_job = subprocess.Popen(["/home/zhangso/ece476_project/good-python-nats/client.py", arg_str, "-m", max_messages, "-d", run_dir])
         user_jobs_list.append(user_job)
 
 
